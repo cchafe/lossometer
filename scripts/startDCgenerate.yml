@@ -1,0 +1,40 @@
+---
+# From First_playbook.yml hello-world example
+- name: startDCgenerate
+  hosts: all
+  ignore_errors: yes
+
+  tasks:
+    
+    - name: remove {{ACKSERVER}}
+      file:
+        path: "{{ACKSERVER}}"
+        state: absent
+
+    - name: killall chuck
+      shell: killall chuck
+
+    - name: start chuck in background
+      shell: chuck --srate:48000 step.ck &  > /dev/null 2>&1 &
+      async: 30               # seconds
+      poll: 0
+
+    - name: disconnect jacktrip loopback on ch 2
+      shell: jack_disconnect {{CLIENTNAMEONSERVER}}:receive_2 {{CLIENTNAMEONSERVER}}:send_2
+
+    - name: connect chuck to jacktrip
+      shell: jack_connect ChucK:outport\ 1 {{CLIENTNAMEONSERVER}}:send_2
+
+# didn't work with ecasound -- .wav file doesn't get closed
+# [as user] ansible-galaxy collection install ansible.posix      
+#     - name: schedule ecasound stop
+#       ansible.posix.at: 
+#         command: killall ecasound
+#         count: 1
+#         units: minutes
+      
+    - name: FPP and QSERVER > {{ACKSERVER}}
+      copy:
+        content: FPP {{FPP}} QSERVER {{QSERVER}}
+        dest: "{{ACKSERVER}}"
+

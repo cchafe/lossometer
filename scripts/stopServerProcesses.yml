@@ -1,0 +1,30 @@
+---
+# From First_playbook.yml hello-world example
+- name: stopServerProcesses
+  hosts: all
+  ignore_errors: yes
+
+  tasks:
+    
+    - name: remove {{ACKSERVER}}
+      file:
+        path: "{{ACKSERVER}}"
+        state: absent
+
+    - name: killall chuck
+      shell: killall chuck
+    
+    - name: killall {{STABLE}}
+      shell: killall {{STABLE}}              
+
+    - name: killall {{BETA}}
+      shell: killall {{BETA}}              
+ 
+    - name: killall jackd
+      shell: killall jackd              
+
+    - name: FPP and QSERVER > {{ACKSERVER}}
+      copy:
+        content: FPP {{FPP}} QSERVER {{QSERVER}}
+        dest: "{{ACKSERVER}}"
+

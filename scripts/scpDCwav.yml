@@ -1,0 +1,20 @@
+---
+# From startP1_playbook.yml
+- name: scpDCwav
+  hosts: all
+#   ignore_errors: yes
+  tasks:
+        
+    - name: remove {{ACKCLIENT}}
+      file:
+        path: "{{ACKCLIENT}}"
+        state: absent
+        
+    - name: scp {{SERVER}}:/tmp/DC.wav
+      shell: scp {{SERVER}}:/tmp/DC.wav /tmp/DC.wav
+      
+    - name: FPP and QCLIENT > {{ACKCLIENT}}
+      copy:
+        content: FPP {{FPP}} QCLIENT {{QCLIENT}}
+        dest: "{{ACKCLIENT}}"
+

@@ -1,0 +1,31 @@
+---
+# From First_playbook.yml hello-world example
+- name: startDCrecord
+  hosts: all
+#  ignore_errors: yes
+
+  tasks:
+    
+    - name: remove {{ACKSERVER}}
+      file:
+        path: "{{ACKSERVER}}"
+        state: absent
+
+    - name: start ecasound in background
+      shell: ecasound -x -f:16,1,48000 -i jack,{{CLIENTNAMEONSERVER}}:receive_2 -o /tmp/DC.wav  > /dev/null 2>&1 &
+      async: 1000               # seconds
+      poll: 0
+
+# didn't work with ecasound -- .wav file doesn't get closed
+# [as user] ansible-galaxy collection install ansible.posix      
+#     - name: schedule ecasound stop
+#       ansible.posix.at: 
+#         command: killall ecasound
+#         count: 1
+#         units: minutes
+      
+    - name: FPP and QSERVER > {{ACKSERVER}}
+      copy:
+        content: FPP {{FPP}} QSERVER {{QSERVER}}
+        dest: "{{ACKSERVER}}"
+

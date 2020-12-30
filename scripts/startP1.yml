@@ -1,0 +1,42 @@
+---
+# From First_playbook.yml hello-world example
+- name: startP1
+  hosts: all
+  ignore_errors: yes
+
+  tasks:
+    
+    - name: remove {{ACKSERVER}}
+      file:
+        path: "{{ACKSERVER}}"
+        state: absent
+        
+#    - debug:
+#        msg: xxx {{BS}} 
+#      when: BS|int < 0
+      
+    - name: killall {{STABLE}}
+      shell: killall {{STABLE}}              
+
+    - name: killall {{BETA}}
+      shell: killall {{BETA}}              
+ 
+    - name: killall jackd
+      shell: killall jackd              
+
+    - name: start jackd in background
+      shell: nohup /usr/bin/jackd -ddummy -r48000 -p{{FPP}} > /dev/null 2>&1 &
+
+    - name: start {{STABLE}} in background
+      shell: nohup $HOME/{{STABLE}} -S -p1 -q{{QSERVER}} -z > /dev/null 2>&1 &
+      when: BS|int < 0
+
+    - name: start {{BETA}} in background
+      shell: nohup $HOME/{{BETA}} -S -p1 -q{{QSERVER}} -z --bufstrategy {{BS}} > /dev/null 2>&1 &
+      when: BS|int > -1
+      
+    - name: FPP and QSERVER > {{ACKSERVER}}
+      copy:
+        content: FPP {{FPP}} QSERVER {{QSERVER}}
+        dest: "{{ACKSERVER}}"
+

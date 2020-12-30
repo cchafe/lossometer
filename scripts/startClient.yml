@@ -1,0 +1,39 @@
+---
+# From startP1_playbook.yml
+- name: startClient
+  hosts: all
+  ignore_errors: yes
+
+  tasks:
+        
+    - name: remove {{ACKCLIENT}}
+      file:
+        path: "{{ACKCLIENT}}"
+        state: absent
+                   
+    - name: killall {{STABLE}}
+      shell: killall {{STABLE}}              
+
+    - name: killall {{BETA}}
+      shell: killall {{BETA}}              
+
+# if launched by chuck, don't kill jackd, operate it manually
+#     - name: killall jackd
+#       shell: killall jackd              
+
+#     - name: start jackd in background
+#       shell: nohup /usr/bin/jackd -ddummy -r48000 -p{{FPP}} > /dev/null 2>&1 &
+
+    - name: start {{STABLE}} in background
+      shell: nohup $HOME/{{STABLE}} -C {{SERVER}} -q{{QCLIENT}} -z > /dev/null 2>&1 &
+      when: BSCLIENT|int < 0
+
+    - name: start {{BETA}} in background
+      shell: nohup $HOME/{{BETA}} -C {{SERVER}} -q{{QCLIENT}} -z > /dev/null 2>&1 &
+      when: BSCLIENT|int > -1
+      
+    - name: FPP and QCLIENT > {{ACKCLIENT}}
+      copy:
+        content: FPP {{FPP}} QCLIENT {{QCLIENT}}
+        dest: "{{ACKCLIENT}}"
+
