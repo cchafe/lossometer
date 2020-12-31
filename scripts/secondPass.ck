@@ -4,13 +4,13 @@ Std.atoi(me.arg(1)) => int BS;
 Std.atoi(me.arg(2)) => int FPP;
 Std.atoi(me.arg(3)) => int QSERVER;
 Std.atoi(me.arg(4)) => int QCLIENT;
-Std.system("chuck -s --caution-to-the-wind --srate:48000 trimLocal.ck:"+TRIMDUR+"");
-Std.system("chuck -s --caution-to-the-wind --srate:48000 trimRemote.ck:"+TRIMDUR+"");
-{
 
 <<<"2nd pass">>>;
+Std.system("chuck -s --caution-to-the-wind --srate:48000 trimLocal.ck:"+TRIMDUR+"");
+Std.system("chuck -s --caution-to-the-wind --srate:48000 trimRemote.ck:"+TRIMDUR+"");
+
   "
-chuck -s --caution-to-the-wind --srate:48000 /home/cc/Desktop/153/153bIETF/ck/bufferDynamics.ck:"+BS+"
+chuck -s --caution-to-the-wind --srate:48000 bufferDynamics.ck:"+BS+"
   " => string str;
   Std.system(str);
 
@@ -48,8 +48,8 @@ Std.system(str); // append stats.txt
   Std.atoi( tok.next() ) => int UPCONSECUTIVE;
 
   "
-chuck -s  --caution-to-the-wind /home/cc/Desktop/153/153bIETF/ck/gnuplot.ck:"+BS+":"+UPLOSS+":"+DOWNLOSS+":"+UPCONSECUTIVE+":"+DOWNCONSECUTIVE+"
+chuck -s  --caution-to-the-wind gnuplot.ck:"+BS+":"+UPLOSS+":"+DOWNLOSS+":"+UPCONSECUTIVE+":"+DOWNCONSECUTIVE+"
   " =>  str;
   Std.system(str);
-}
+
 

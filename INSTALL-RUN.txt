@@ -1,0 +1,59 @@
+INSTALL:
+[ssh key for target remote and localhost]
+ssh-keygen -t rsa
+~/.ssh/id_rsa.pub cm-jam.stanford.edu:.ssh/tmp.pub
+cat .ssh/tmp.pub >> .ssh/authorized_keys
+rm .ssh/tmp.pub
+cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+chmod og-wx ~/.ssh/authorized_keys
+
+[applications needed are ansible, chuck, jmess, jacktrip, ecasound, sox, gnuplot and snd is a nice-to-have]
+dnf install libsndfile-devel ansible sox gnuplot motif-devel libXpm-devel libsamplerate-devel
+
+[chuck]
+download latest from
+http://chuck.stanford.edu/release/
+uncompress and 
+make linux-jack
+sudo make install
+cp lossometer/scripts/step.ck ~
+cp lossometer/scripts/sync.ck  ~
+
+[ansible config]
+cp lossometer/config/.ansible.cfg ~/
+
+[jmess]
+git clone https://github.com/jacktrip/jmess-jack.git
+cd jmess-jack/jmess/src
+./build
+sudo make install
+
+[jacktrip]
+git clone https://github.com/jacktrip/jacktrip.git
+cd jjacktrip/src
+./build
+sudo make install
+[executable location needs to match calls in ansible.ck]
+
+[ecasound]
+http://nosignal.fi/download/ecasound-2.9.3.tar.gz
+[by default will enable jack since libs are in place already]
+uncompress
+./configure
+make
+sudo make install
+
+[snd]
+https://ccrma.stanford.edu/software/snd/snd-20.9.tar.gz
+dnf install motif-devel libXpm-devel libsamplerate-devel
+./configure --with-motif --with-jack
+make
+sudo make install
+
+RUN:
+[from /scripts]
+chuck --caution-to-the-wind --srate:48000 ansible.ck
+
+
+
+
