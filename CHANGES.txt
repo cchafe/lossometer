@@ -1,1 +1,6 @@
+-- tested on machine number two
+/config
+/scripts 
+INSTALL-RUN.txt
+
 -- scripts directory (empty)

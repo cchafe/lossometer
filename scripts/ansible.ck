@@ -10,7 +10,7 @@ true => int record;
 "jacktrip/builddir/jacktrip" => string STABLE;
 "jacktrip-production/jacktrip-beta" => string BETA;
 
-"cmn9.stanford.edu" => string SERVER;
+"cm-jam.stanford.edu" => string SERVER;
 "/tmp/serverState.txt" => string ACKSERVER;
 7 => int QSERVER;
 
@@ -23,7 +23,7 @@ true => int record;
 spork ~ clix(); 
 spork ~ dc(); 
 
-for (-1 => int BS; BS < 3; BS++) {
+for (-1 => int BS; BS < 0; BS++) {
 BS => int BSCLIENT;
 Ansible server;
 Ansible client;
