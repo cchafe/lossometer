@@ -23,7 +23,10 @@ true => int record;
 spork ~ clix(); 
 spork ~ dc(); 
 
-for (-1 => int BS; BS < 0; BS++) {
+repeat (24) for (-1 => int BS; BS < 0; BS++) {
+
+1::hour => now;
+
 BS => int BSCLIENT;
 Ansible server;
 Ansible client;
