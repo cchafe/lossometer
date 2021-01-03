@@ -25,7 +25,8 @@ repeat (snd.length()/samp) {
     } else { // missed an echo
       fout2 <= impAt/1000;
       fout2 <= "\t";
-      fout2 <= 22.0;
+//      fout2 <= 22.0;
+      fout2 <= 80.0;
       fout2 <= "\n";
     }
   }

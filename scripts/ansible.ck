@@ -3,27 +3,29 @@
 30 => int TESTDUR;
 true => int connect;
 true => int record;
-// 64: 7 4
-// 32: 14 5
+// 64: 7 4 -- home
+// 32: 14 5 -- home
 
-"__ffff_98.42.48.61" => string CLIENTNAMEONSERVER;
+"__ffff_75.109.247.16" => string CLIENTNAMEONSERVER;
+// "__ffff_98.42.48.61" => string CLIENTNAMEONSERVER;
 "jacktrip/builddir/jacktrip" => string STABLE;
 "jacktrip-production/jacktrip-beta" => string BETA;
 
-"cm-jam.stanford.edu" => string SERVER;
+"cmn9.stanford.edu" => string SERVER;
 "/tmp/serverState.txt" => string ACKSERVER;
-7 => int QSERVER;
+20 => int QSERVER;
 
 "localhost" => string CLIENT;
 "/tmp/clientState.txt" => string ACKCLIENT;
-4 => int QCLIENT;
+8 => int QCLIENT;
 -1 => int BSCLIENT;
 
 0 => int quit;
 spork ~ clix(); 
 spork ~ dc(); 
 
-for (-1 => int BS; BS < 0; BS++) {
+repeat (48) for (-1 => int BS; BS < 0; BS++) {
+
 BS => int BSCLIENT;
 Ansible server;
 Ansible client;
@@ -80,6 +82,8 @@ if (record) {
   Std.system("chuck -s --caution-to-the-wind --srate:48000 secondPass.ck:"+(TESTDUR-5)+":"+BS+":"+FPP+":"+QSERVER+":"+QCLIENT+"");
 }
 
+0.5::hour => now;
+
 }
 
 class Ansible {
@@ -117,7 +121,7 @@ fun void clix() {
   Impulse imp => dac.chan(0);
   while (!quit) {
     imp.next (0.5);
-    50::ms => now;
+    250::ms => now;
   }
 }
 
