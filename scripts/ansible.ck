@@ -13,19 +13,19 @@ true => int record;
 
 "cmn9.stanford.edu" => string SERVER;
 "/tmp/serverState.txt" => string ACKSERVER;
-20 => int QSERVER;
+10 => int QSERVER;
 
 "localhost" => string CLIENT;
 "/tmp/clientState.txt" => string ACKCLIENT;
-8 => int QCLIENT;
+6 => int QCLIENT;
 -1 => int BSCLIENT;
 
 0 => int quit;
 spork ~ clix(); 
 spork ~ dc(); 
 
-repeat (48) for (-1 => int BS; BS < 0; BS++) {
-
+repeat (10) for (-1 => int BS; BS < 0; BS++) {
+"plot_"+(now/minute)$int+"" => string PLOTFILENAME;
 BS => int BSCLIENT;
 Ansible server;
 Ansible client;
@@ -79,10 +79,10 @@ if (record) {
 }
 
 if (record) {
-  Std.system("chuck -s --caution-to-the-wind --srate:48000 secondPass.ck:"+(TESTDUR-5)+":"+BS+":"+FPP+":"+QSERVER+":"+QCLIENT+"");
+  Std.system("chuck -s --caution-to-the-wind --srate:48000 secondPass.ck:"+(TESTDUR-5)+":"+BS+":"+FPP+":"+QSERVER+":"+QCLIENT+":"+PLOTFILENAME+"");
 }
 
-0.5::hour => now;
+1::minute => now;
 
 }
 

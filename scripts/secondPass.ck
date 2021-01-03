@@ -1,9 +1,10 @@
-// chuck -s --caution-to-the-wind --srate:48000 secondPass.ck:25:-1:64:12:6
+// chuck -s --caution-to-the-wind --srate:48000 secondPass.ck:25:-1:64:12:6:xxx
 Std.atoi(me.arg(0)) => int TRIMDUR;
 Std.atoi(me.arg(1)) => int BS;
 Std.atoi(me.arg(2)) => int FPP;
 Std.atoi(me.arg(3)) => int QSERVER;
 Std.atoi(me.arg(4)) => int QCLIENT;
+me.arg(5) => string PLOTFILENAME;
 
 <<<"2nd pass">>>;
 Std.system("chuck -s --caution-to-the-wind --srate:48000 trimLocal.ck:"+TRIMDUR+"");
@@ -27,7 +28,11 @@ Std.system(str); // append stats.txt
 
   FileIO fout;
   fout.open("/tmp/plot.txt",FileIO.WRITE);
-  "set title \""+BS+" "+FPP+" server:"+QSERVER+" client:"+QCLIENT+" " => str;
+  "
+set term png
+set output \"/tmp/"+PLOTFILENAME+".png\"
+set title \""+BS+" "+FPP+" server:"+QSERVER+" client:"+QCLIENT+"
+  " => str;
   fout <= str;
   fout.close();
 
