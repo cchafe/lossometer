@@ -11,8 +11,8 @@ fout.open("/tmp/plot.txt",FileIO.APPEND); // caller does WRITE with title
 "
 # set yrange[75:95] # 256
 # set yrange[30:50] # 64
-set yrange[15:35] # 32
-# set yrange[0:200] # fishing around
+# set yrange[15:35] # 32
+set yrange[20:250] # fishing around
 set label \"lost packets\" at graph 0.1,0.15 left font \"Ariel,14\"
 set label \"upload     "+UPLOSS+" "+UPCONSECUTIVE+"\" at graph 0.13,0.1 left font \"Ariel,14\"
 set label \"download     "+DOWNLOSS+"  "+DOWNCONSECUTIVE+"\" at graph 0.13,0.05 left font \"Ariel,14\"

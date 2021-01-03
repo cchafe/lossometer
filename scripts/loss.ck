@@ -31,7 +31,8 @@ repeat ( (Math.floor((snd.length()/samp)/FPP$float))$int ) {
   if (acc==0.0) {
     fout <= testAt/1000;
     fout <= "\t";
-if (local) fout <= 24.0; else fout <= 25.0;
+// if (local) fout <= 24.0; else fout <= 25.0;
+if (local) fout <= 90.0; else fout <= 95.0;
     fout <= "\n";
     cnt++;
     consecutive++;
